@@ -1,0 +1,20 @@
+version: '2'
+
+networks:
+  172.31.0.0:
+    external: true
+
+services:
+  basic_service:
+    build:
+      dockerfile: docker/Dockerfile.dev
+      context: .
+    restart: always
+    volumes:
+      - ./symfony:/var/www/symfony
+    container_name: discharge
+    ports:
+    - 9194:9000
+    networks:
+      - 172.31.0.0
+
