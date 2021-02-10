@@ -25,8 +25,16 @@ class FileBuilder
 
     public function createFileCsvFromProperties()
     {
-        $handle = fopen($this->uploadPath,'rb');
-        $data = $this->dataBuilder->getPropertiesData();
-       dd(json_decode($data, true));
+        $handle = fopen($this->uploadPath . 'properties.csv', 'w+');
+
+        foreach ($this->dataBuilder->getPropertiesData() as $fields) {
+
+            fwrite($handle, implode(';', $fields) . "\r\n");
+//            fwrite($handle, implode(';',mb_convert_encoding($fields, 'cp1251' ) ) . "\r\n");
+
+        }
+
+        fclose($handle);
+
     }
 }

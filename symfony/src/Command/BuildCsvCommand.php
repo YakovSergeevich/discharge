@@ -42,7 +42,7 @@ class BuildCsvCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        dd($this->fileBuilder->createFileCsvFromProperties());
+        $this->fileBuilder->createFileCsvFromProperties();
 
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
