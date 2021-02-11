@@ -26,6 +26,8 @@ class FileBuilder
     public function createFileCsvFromProperties()
     {
         $handle = fopen($this->uploadPath . 'properties.csv', 'w+');
+        $nameFields = 'id свойства;id раздела;Наименование свойства;Приоритетная сортировка;Приоритетная сортировка в фильтре;Отображать в фильтре(флаг);Отображать в карточке(флаг);Группировка;isMulti;t' ."\r\n";
+        fwrite($handle,  $nameFields);
         foreach ($this->dataBuilder->getPropertiesData() as $fields) {
             fwrite($handle,  $fields);
         }
