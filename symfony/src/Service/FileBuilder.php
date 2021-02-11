@@ -26,15 +26,15 @@ class FileBuilder
     public function createFileCsvFromProperties()
     {
         $handle = fopen($this->uploadPath . 'properties.csv', 'w+');
-
         foreach ($this->dataBuilder->getPropertiesData() as $fields) {
-
-            fwrite($handle, implode(';', $fields) . "\r\n");
-//            fwrite($handle, implode(';',mb_convert_encoding($fields, 'cp1251' ) ) . "\r\n");
-
+            fwrite($handle,  $fields);
         }
-
         fclose($handle);
-
     }
 }
+
+
+
+
+
+//           fwrite($handle, implode(';',mb_convert_encoding($fields, 'cp1251' ) ) . "\r\n");

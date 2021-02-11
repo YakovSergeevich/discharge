@@ -30,7 +30,7 @@ class DataBuilder
 
     public function getPropertiesData()
     {
-        foreach ($this->fieldsBuilder->getArrayFields($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/props_all?limit=5')->getContent()) as $res){
+        foreach ($this->fieldsBuilder->getArrayFields($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/props_all?limit=1387')->getContent()) as $res){
             yield $res;
         }
 
