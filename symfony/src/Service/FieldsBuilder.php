@@ -44,7 +44,7 @@ class FieldsBuilder
     {
         foreach ($this->buildDTO->buildFromProducts($this->deserializeProduct($response)) as $line){
             $string = '';
-            $string .= $line['previewTextType'] . ';' . $line['detailTextType'] . "\r\n";
+            $string .= $line->sectionId . ';' . $line->xmlId . ';' . $line->idProp . ';' . $line->newProps . "\r\n";
             yield $string;
         }
 

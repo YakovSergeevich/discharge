@@ -8,7 +8,8 @@ class ProductDTO
 {
     public int $sectionId;
     public int $xmlId;
-    public array $newProps;
-    public  $value;
+    public string $idProp;
+    public string $newPropsValue;
+//    public string $value;
 
 }

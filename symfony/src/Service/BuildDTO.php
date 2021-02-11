@@ -33,16 +33,19 @@ class BuildDTO
 
     public function buildFromProducts(array $data): \Generator
     {
+//        dd($data);
         foreach ($data as $sections) {
 
-                foreach ($sections['isSmartBySection'] as $section) {
-                    $dto = new ProductDTO();
-                    $dto->sectionId = 1;
-                    $dto->xmlId = 1;
-                    $dto->newProps = 1;
-                    $dto->value = 1;
-                    yield $dto;
-                }
+            foreach ($sections['newProps'] as $values){
+                $dto = new ProductDTO();
+//                dd($sections['newProps']);
+                $dto->sectionId = $sections['sectionId'];
+                $dto->xmlId = $sections['xmlId'];
+                $dto->idProp = str_replace('ep_id_', '', $values['code']);
+                $dto->newPropsValue = $values['isMulti'] ?  $values['values'][0]['value'] : $values['value'];
+                yield $dto;
+//                dd($dto);
+            }
         }
     }
 

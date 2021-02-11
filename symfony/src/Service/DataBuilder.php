@@ -37,7 +37,7 @@ class DataBuilder
     public function getProductsFullData()
     {
 
-        foreach ($this->fieldsBuilder->getArrayFieldsProducts($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?ids[]=12502156')->getContent()) as $res) {
+        foreach ($this->fieldsBuilder->getArrayFieldsProducts($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?ids[]=1289&ids[]=1290&ids[]=12502156')->getContent()) as $res) {
             yield $res;
         }
     }
