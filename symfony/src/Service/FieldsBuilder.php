@@ -20,10 +20,10 @@ class FieldsBuilder
         $this->buildDTO = $buildDTO;
     }
 
-    public function getArrayFields($response)
+    public function getArrayFieldsProperties($response)
     {
 
-        foreach ($this->buildDTO->build($this->deserialize($response)) as $line) {
+        foreach ($this->buildDTO->buildFromProps($this->deserializeProps($response)) as $line) {
             $string = '';
 //            foreach ($line->sections as $section){}
                 $string .= $line->code .
@@ -36,13 +36,27 @@ class FieldsBuilder
                     ';' . $line->groupingBySection .
                     ';' . $line->isMulti .
                     ';' . $line->t . "\r\n";
-//                    dd($string);
                 yield $string;
         }
     }
-    private function deserialize($response)
+
+    public function getArrayFieldsProducts($response)
+    {
+        foreach ($this->buildDTO->buildFromProducts($this->deserializeProduct($response)) as $line){
+            $string = '';
+            $string .= $line['previewTextType'] . ';' . $line['detailTextType'] . "\r\n";
+            yield $string;
+        }
+
+    }
+    private function deserializeProps($response)
     {
         return json_decode($response, true)['data']['props'];
+    }
+
+    private function deserializeProduct($response)
+    {
+        return json_decode($response, true)['data'];
     }
 
 }

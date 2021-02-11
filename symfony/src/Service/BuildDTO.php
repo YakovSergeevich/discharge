@@ -4,11 +4,12 @@
 namespace App\Service;
 
 
+use App\DTO\ProductDTO;
 use App\DTO\PropDTO;
 
 class BuildDTO
 {
-    public function build(array $data): \Generator
+    public function buildFromProps(array $data): \Generator
     {
         foreach ($data as $sections) {
             if (strpos($sections['code'], 'ep_id_') !== false) {
@@ -23,14 +24,32 @@ class BuildDTO
                     $dto->isVisibleBySection = $sections['isVisibleBySection'][$section['sectId']]['isVisible'];
                     $dto->groupingBySection = $sections['groupingBySection'][$section['sectId']]['grouping'] ?? false;
                     $dto->isMulti = $sections['isMulti'];
-                    $dto->t = $this->revertT($sections['t']);
+                    $dto->t = $this->revertTfropProps($sections['t']);
                     yield $dto;
                 }
             }
         }
     }
 
-    private function revertT(int $t): string
+    public function buildFromProducts(array $data): \Generator
+    {
+        foreach ($data as $sections) {
+
+                foreach ($sections['isSmartBySection'] as $section) {
+                    $dto = new ProductDTO();
+                    $dto->sectionId = 1;
+                    $dto->xmlId = 1;
+                    $dto->newProps = 1;
+                    $dto->value = 1;
+                    yield $dto;
+                }
+        }
+    }
+
+
+
+
+    private function revertTfropProps(int $t): string
     {
         return ($t == 0) ? 'integer' : 'string';
     }

@@ -33,6 +33,19 @@ class FileBuilder
         }
         fclose($handle);
     }
+
+    public function createFileCsvFromProducts()
+    {
+//        $this->dataBuilder->getProductsFullData();
+
+        $handle = fopen($this->uploadPath . 'products.csv', 'w+');
+//        $nameFields = 'id раздела;xmlid(код товара);id свойства;Значение свойства;' ."\r\n";
+//        fwrite($handle,  $nameFields);
+        foreach ($this->dataBuilder->getProductsFullData() as $fields) {
+            fwrite($handle,  $fields);
+        }
+        fclose($handle);
+    }
 }
 
 
