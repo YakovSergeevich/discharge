@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class BuildCsvProducts extends Command
+class BuildPropIds extends Command
 {
-    protected static $defaultName = 'app:build-csv-products';
+    protected static $defaultName = 'app:build-props-ids';
     protected static $defaultDescription = 'Build CSV file from couch base';
     /**
      * @var FileBuilder
@@ -35,17 +35,13 @@ class BuildCsvProducts extends Command
     protected function configure()
     {
         $this
-            ->setDescription(self::$defaultDescription)
-        ;
+            ->setDescription(self::$defaultDescription);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-     foreach ($this->fileBuilder->createFileCsvFromProducts() as $status) {
-
-         $output->writeln(sprintf('Product parsed: %s',  json_encode($status) ));
-     }
+        $this->fileBuilder->createPropsIds();
 
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');

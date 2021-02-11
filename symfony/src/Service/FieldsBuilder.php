@@ -44,9 +44,27 @@ class FieldsBuilder
     {
         foreach ($this->buildDTO->buildFromProducts($this->deserializeProduct($response)) as $line){
             $string = '';
-            $string .= $line->sectionId . ';' . $line->xmlId . ';' . $line->idProp . ';' . $line->newProps . "\r\n";
+            $string .= $line->sectionId . ';' . $line->xmlId . ';' . $line->idProp . ';' . $line->newPropsValue . "\r\n";
             yield $string;
         }
+
+    }
+
+    public function getArrayFieldsProductsNew($response)
+    {
+        foreach ($this->buildDTO->buildFromProductsNew($this->deserializeProduct($response)) as $line){
+            $string = '';
+            $string .= $line->sectionId . ';' . $line->xmlId . ';' . $line->idProp . ';' . $line->newPropsValue . "\r\n";
+            yield $string;
+        }
+
+    }
+
+
+
+    public function getArrayFieldsIds($response)
+    {
+        return json_decode($response, true)['data'];
 
     }
     private function deserializeProps($response)

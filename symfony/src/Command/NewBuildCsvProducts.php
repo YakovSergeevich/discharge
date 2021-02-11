@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class BuildCsvProducts extends Command
+class NewBuildCsvProducts extends Command
 {
-    protected static $defaultName = 'app:build-csv-products';
+    protected static $defaultName = 'app:build-csv-new';
     protected static $defaultDescription = 'Build CSV file from couch base';
     /**
      * @var FileBuilder
@@ -42,7 +42,7 @@ class BuildCsvProducts extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-     foreach ($this->fileBuilder->createFileCsvFromProducts() as $status) {
+     foreach ($this->fileBuilder->createFileCsvFromProductsNew() as $status) {
 
          $output->writeln(sprintf('Product parsed: %s',  json_encode($status) ));
      }

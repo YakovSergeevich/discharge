@@ -34,19 +34,32 @@ class DataBuilder
             yield $res;
         }
     }
+
     public function getProductsFullData()
     {
+        foreach ($this->getProductsIds() as $key => $value) {
+//            dd($key);
+            foreach ($this->fieldsBuilder->getArrayFieldsProducts($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?ids[]=' . $key)->getContent()) as $res) {
+                yield $res;
+            }
 
-        foreach ($this->fieldsBuilder->getArrayFieldsProducts($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?ids[]=1289&ids[]=1290&ids[]=12502156')->getContent()) as $res) {
-            yield $res;
+        }
+    }
+
+    public function getProductsFullDataNew()
+    {
+        foreach ($this->getProductsIds() as $key => $value) {
+
+            foreach ($this->fieldsBuilder->getArrayFieldsProductsNew($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?ids[]=' . $key)->getContent()) as $res) {
+                yield $res;
+            }
+
         }
     }
 
     public function getProductsIds()
     {
-
-        $res = $this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products_multipurpose?action=existing_products')->getContent();
-        dd($res);
+        return $this->fieldsBuilder->getArrayFieldsIds($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products_multipurpose?action=existing_products')->getContent());
 
 
     }
