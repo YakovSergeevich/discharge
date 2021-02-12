@@ -66,11 +66,28 @@ class DataBuilder
 
     public function getLine()
     {
+        $array = [];
+//        $string = '';
         foreach ($this->getProductsIds() as $key => $value) {
-//            dd($key);
-            foreach ($this->fieldsBuilder->buildLineFromArray($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?ids[]=' . $key)->getContent()) as $line) {
-                yield $line;
+            $array[$key] = $value;
+
+            if (count($array) === 10) {
+                $string = '';
+                foreach ($array as $k => $line) {
+                    $string .= 'ids[]=' . $k;
+                }
+                $array = [];
+                foreach ($this->fieldsBuilder->buildLineFromArray($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?' . $string)->getContent()) as $line) {
+                    yield $line;
+                }
             }
         }
+
+
+//        foreach ($this->getProductsIds() as $key => $value) {
+//            foreach ($this->fieldsBuilder->buildLineFromArray($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?ids[]=' . $key)->getContent()) as $line) {
+//                yield $line;
+//            }
+//        }
     }
 }

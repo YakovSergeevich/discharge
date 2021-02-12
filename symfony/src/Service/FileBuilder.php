@@ -69,9 +69,9 @@ class FileBuilder
     {
 //        $this->dataBuilder->getProductsFullData();
 
-        $handle = fopen($this->uploadPath . 'new.csv', 'w+');
-        $nameFields = 'id раздела;xmlid(код товара);id свойства;Значение свойства;' . "\r\n";
-        fwrite($handle, $nameFields);
+        $handle = fopen($this->uploadPath . 'newTest.csv', 'w+');
+//        $nameFields = 'id раздела;xmlid(код товара);id свойства;Значение свойства;' . "\r\n";
+//        fwrite($handle, $nameFields);
         foreach ($this->dataBuilder->getLine() as $line) {
             fwrite($handle, $line);
             yield $line;
