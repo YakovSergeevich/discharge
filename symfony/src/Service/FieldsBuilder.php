@@ -4,6 +4,8 @@
 namespace App\Service;
 
 
+use App\DTO\ProductDTO;
+
 class FieldsBuilder
 {
     /**
@@ -26,23 +28,23 @@ class FieldsBuilder
         foreach ($this->buildDTO->buildFromProps($this->deserializeProps($response)) as $line) {
             $string = '';
 //            foreach ($line->sections as $section){}
-                $string .= $line->code .
-                    ';' . $line->sections .
-                    ';' . $line->name .
-                    ';' . $line->sortBySectionCard .
-                    ';' . $line->sortBySectionFilter .
-                    ';' . $line->isSmartBySectionIsSmart .
-                    ';' . $line->isVisibleBySection .
-                    ';' . $line->groupingBySection .
-                    ';' . $line->isMulti .
-                    ';' . $line->t . "\r\n";
-                yield $string;
+            $string .= $line->code .
+                ';' . $line->sections .
+                ';' . $line->name .
+                ';' . $line->sortBySectionCard .
+                ';' . $line->sortBySectionFilter .
+                ';' . $line->isSmartBySectionIsSmart .
+                ';' . $line->isVisibleBySection .
+                ';' . $line->groupingBySection .
+                ';' . $line->isMulti .
+                ';' . $line->t . "\r\n";
+            yield $string;
         }
     }
 
     public function getArrayFieldsProducts($response)
     {
-        foreach ($this->buildDTO->buildFromProducts($this->deserializeProduct($response)) as $line){
+        foreach ($this->buildDTO->buildFromProducts($this->deserializeProduct($response)) as $line) {
             $string = '';
             $string .= $line->sectionId . ';' . $line->xmlId . ';' . $line->idProp . ';' . $line->newPropsValue . "\r\n";
             yield $string;
@@ -50,16 +52,37 @@ class FieldsBuilder
 
     }
 
-    public function getArrayFieldsProductsNew($response)
+    public function buildLineFromArray($response)
     {
-        foreach ($this->buildDTO->buildFromProductsNew($this->deserializeProduct($response)) as $line){
-            $string = '';
-            $string .= $line->sectionId . ';' . $line->xmlId . ';' . $line->idProp . ';' . $line->newPropsValue . "\r\n";
-            yield $string;
+        foreach ($this->deserializeProduct($response) as $props) {
+            if (!empty($props['newProps'])) {
+
+
+                foreach ($props['newProps'] as $sectionValue) {
+//                dd($sectionValue);
+
+                    $string = '';
+                    if (strpos($sectionValue['code'], 'ep_id_') !== false) {
+                        $string .= $props['sectionId'] . ';';
+                        $string .= $props['xmlId'] . ';';
+                        $string .= str_replace('ep_id_', '', $sectionValue['code']) . ';';
+                        if (isset($sectionValue['values'][0]['value'])) {
+                            $str = '';
+                            foreach ($sectionValue['values'] as $val) {
+                                $str .= $val['value'] . '/';
+                            }
+                            $string .= rtrim($str, '/');
+                        } else {
+                            $string .= $sectionValue['value'] ?? '';
+                        }
+                        $string .= "\r\n";
+//                        dd($string);
+                        yield $string;
+                    }
+                }
+            }
         }
-
     }
-
 
 
     public function getArrayFieldsIds($response)
@@ -67,6 +90,7 @@ class FieldsBuilder
         return json_decode($response, true)['data'];
 
     }
+
     private function deserializeProps($response)
     {
         return json_decode($response, true)['data']['props'];

@@ -64,5 +64,13 @@ class DataBuilder
 
     }
 
-
+    public function getLine()
+    {
+        foreach ($this->getProductsIds() as $key => $value) {
+//            dd($key);
+            foreach ($this->fieldsBuilder->buildLineFromArray($this->httpClient->request('GET', 'http://136.243.45.232:8073/v1/catalog/products/2/0?ids[]=' . $key)->getContent()) as $line) {
+                yield $line;
+            }
+        }
+    }
 }

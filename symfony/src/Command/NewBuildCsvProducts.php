@@ -35,17 +35,16 @@ class NewBuildCsvProducts extends Command
     protected function configure()
     {
         $this
-            ->setDescription(self::$defaultDescription)
-        ;
+            ->setDescription(self::$defaultDescription);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-     foreach ($this->fileBuilder->createFileCsvFromProductsNew() as $status) {
+        foreach ($this->fileBuilder->createFileCsvFromProductsNew() as $status) {
 
-         $output->writeln(sprintf('Product parsed: %s',  json_encode($status) ));
-     }
+            $output->writeln(sprintf('Product parsed: %s', json_encode($status)));
+        }
 
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');

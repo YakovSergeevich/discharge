@@ -65,6 +65,23 @@ class FileBuilder
     }
 
 
+    public function createNewCsvFile()
+    {
+//        $this->dataBuilder->getProductsFullData();
+
+        $handle = fopen($this->uploadPath . 'new.csv', 'w+');
+        $nameFields = 'id раздела;xmlid(код товара);id свойства;Значение свойства;' . "\r\n";
+        fwrite($handle, $nameFields);
+        foreach ($this->dataBuilder->getLine() as $line) {
+            fwrite($handle, $line);
+            yield $line;
+//            fclose($handle);
+//            exit;
+        }
+        fclose($handle);
+    }
+
+
 }
 
 
