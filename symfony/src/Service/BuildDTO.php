@@ -53,14 +53,22 @@ class BuildDTO
         foreach ($data as $sections) {
             if (!empty($sections['newProps'])) {
                 foreach ($sections['newProps'] as $values) {
-                    $dto = new ProductDTO();
-//                dd($sections['newProps']);
-                    $dto->sectionId = $sections['id'];
-                    $dto->xmlId = $sections['xmlId'];
-                    $dto->idProp = str_replace('ep_id_', '', $values['code']);
-                    $dto->newPropsValue = $values['values'][0]['value'] ?? $values['value'] ?? 'string';
-                    yield $dto;
-//                dd($dto);
+                    if (strpos($values['code'], 'ep_id_') !== false) {
+                        $dto = new ProductDTO();
+                        $dto->sectionId = $sections['sectionId'];
+                        $dto->xmlId = $sections['xmlId'];
+                        $dto->idProp = str_replace('ep_id_', '', $values['code']);
+                        if (isset($values['values'][0]['value'])) {
+                            $string = '';
+                            foreach ($values['values'] as $val) {
+                                $string .= $val['value'] . '/';
+                            }
+                            $dto->newPropsValue = rtrim($string, '/');
+                        } else {
+                            $dto->newPropsValue = $values['value'] ?? '';
+                        }
+                        yield $dto;
+                    }
                 }
             }
 
@@ -85,7 +93,7 @@ class BuildDTO
                         }
                         $dto->newPropsValue = $string;
                     } else {
-                        $dto->newPropsValue =(string) $values['value'];
+                        $dto->newPropsValue = (string)$values['value'];
                     }
                     yield $dto;
                 }

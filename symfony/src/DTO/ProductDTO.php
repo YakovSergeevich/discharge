@@ -6,8 +6,8 @@ namespace App\DTO;
 
 class ProductDTO
 {
-    public int $sectionId;
-    public int $xmlId;
+    public string $sectionId;
+    public string $xmlId;
     public string $idProp;
     public string $newPropsValue;
 //    public string $value;
